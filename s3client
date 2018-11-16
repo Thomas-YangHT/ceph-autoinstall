@@ -1,0 +1,188 @@
+#!/usr/bin/env python
+
+
+import os
+import sys
+
+import boto
+from boto.exception import S3ResponseError
+import boto.s3.connection
+from boto.s3.connection import S3Connection
+from boto.s3.key import Key
+
+
+ACCESS_KEY = os.environ.get('S3_ACCESS_KEY')
+SECRET_KEY = os.environ.get('S3_SECRET_KEY')
+S3_HOST = os.environ.get('S3_HOST')
+S3_PORT = os.environ.get('S3_PORT')
+
+if ACCESS_KEY is None and SECRET_KEY is None \
+        and S3_HOST is None and S3_PORT is None:
+    sys.exit('ERROR : You must provide a env[S3_ACCESS_KEY], env[S3_SECRET_KEY], env[S3_HOST] and env[S3_PORT]')
+
+
+def main():
+    if len(sys.argv) < 2:
+        sys.exit('Usage: s3client {list|upload|download|delete|create}')
+    else:
+        if sys.argv[1] == 'list':
+            s3_list()
+        elif sys.argv[1] == 'upload':
+            s3_upload()
+        elif sys.argv[1] == 'download':
+            s3_download()
+        elif sys.argv[1] == 'delete':
+            s3_delete()
+        elif sys.argv[1] == 'create':
+            s3_create()
+        else:
+            sys.exit('Usage: s3client {list|upload|download|delete|create}')
+
+
+def connection():
+    try:
+        if S3_HOST != 's3.amazonaws.com':
+            s3_connect = boto.connect_s3(
+                aws_access_key_id=ACCESS_KEY,
+                aws_secret_access_key=SECRET_KEY,
+                host=S3_HOST,
+                port=int(S3_PORT),
+                is_secure=False,
+                calling_format=boto.s3.connection.OrdinaryCallingFormat(),
+            )
+            return s3_connect
+        else:
+            s3_connect = S3Connection(ACCESS_KEY, SECRET_KEY)
+            return s3_connect
+
+    except S3ResponseError, error:
+        sys.exit("ERROR : Can\'t connect to %s" % S3_HOST)
+
+
+def s3_list():
+    if len(sys.argv) == 2:
+        print('---------- Bucket List----------')
+        for bucket in connection().get_all_buckets():
+            print "{name:<20} \t {created:<20}".format(
+                name=bucket.name,
+                created=bucket.creation_date
+            )
+    elif len(sys.argv) == 3:
+        s3_bucket = sys.argv[2]
+        try:
+            bucket = connection().get_bucket(s3_bucket)
+            print("---------- [%s] ----------" % s3_bucket)
+            for key in bucket.list():
+                print "{name:<20}\t{size:<20}\t{modified:<20}".format(
+                    name=key.name,
+                    size=key.size,
+                    modified=key.last_modified
+                )
+        except S3ResponseError, error:
+            print ("List failed, %s bucket ... " % error.error_code)
+    else:
+        message_alert(
+            "Usage: s3client list {bucket_name}",
+            "List file from bucket"
+        )
+
+
+def s3_create():
+    if len(sys.argv) == 3:
+        s3_bucket = sys.argv[2]
+        try:
+            if connection().create_bucket(s3_bucket):
+                print("Create [%s] success ..." % s3_bucket)
+
+        except S3ResponseError, error:
+            print ("Create failed, %s ..." % error.error_code)
+    else:
+        message_alert(
+            "Usage: s3client create {bucket_name}",
+            "Create a bucket for bucket_name"
+        )
+
+
+def s3_upload():
+    if len(sys.argv) != 5:
+        message_alert(
+            "Usage: s3client upload {bucket_name} {local_file_path} {s3_path}",
+            "Upload file to bucket"
+        )
+    else:
+        s3_bucket = sys.argv[2]
+        local_file_path = sys.argv[3]
+        s3_path = sys.argv[4]
+        try:
+            bucket = connection().get_bucket(s3_bucket)
+            key = Key(bucket)
+            file_name_to_use_in_s3 = "%s/%s" % (s3_path, os.path.basename(local_file_path))
+            key.name = file_name_to_use_in_s3
+            key.set_contents_from_filename(local_file_path)
+            print ("Upload [%s] success ..." % local_file_path)
+            sys.exit(0)
+        except S3ResponseError, error:
+            print ("Upload failed, %s ..." % error.error_code)
+
+
+def s3_delete():
+    if len(sys.argv) == 4:
+        s3_bucket = sys.argv[2]
+        s3_path = sys.argv[3]
+        try:
+            bucket = connection().get_bucket(s3_bucket)
+            bucket.delete_key(s3_path)
+            sys.exit("Delete [%s] file success ..." % s3_path)
+
+        except S3ResponseError, error:
+            sys.exit("Delete failed, %s ..." % error.error_code)
+
+    elif len(sys.argv) == 3:
+        s3_bucket = sys.argv[2]
+        try:
+            connection().delete_bucket(s3_bucket)
+            print("Delete [%s] bucket success ..." % s3_bucket)
+        except S3ResponseError, error:
+            sys.exit("Delete failed, %s ..." % error.error_code)
+    else:
+        message_alert(
+            "Usage: s3client delete {bucket_name}",
+            "Delete a bucket"
+        )
+        message_alert(
+            "Usage: s3client delete {bucket_name} {s3_path}",
+            "Delete file in bucket"
+        )
+
+
+def s3_download():
+    if len(sys.argv) != 4:
+        message_alert(
+            "Usage: s3client download {bucket_name} {s3_file}",
+            "Download file from bucket"
+        )
+    else:
+        try:
+            s3_bucket = sys.argv[2]
+            s3_file = sys.argv[3]
+            bucket = connection().get_bucket(s3_bucket)
+            if bucket.get_key(s3_file):
+                key = bucket.get_key(s3_file)
+                key.get_contents_to_filename('./%s' % s3_file)
+                sys.exit("Download [%s] success ..." % s3_file)
+            else:
+                print ("Download failed, Not found file ...")
+
+        except S3ResponseError, error:
+            print ("Download failed, %s ..." % error.error_code)
+
+
+def message_alert(usage, description):
+    print("{usage:<50} \t {description:<50}".format(
+        usage=usage,
+        description=description
+    ))
+
+
+if __name__ == '__main__':
+    main()

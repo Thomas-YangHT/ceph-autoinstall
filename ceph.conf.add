@@ -1,0 +1,8 @@
+#add 
+auth cluster required = cephx 
+auth service required = cephx 
+auth client required = cephx 
+osd pool default size = 2 
+osd pool default pg num = 100 
+osd pool default pgp num = 100 
+mon_max_pg_per_osd = 1000
