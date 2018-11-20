@@ -1,0 +1,667 @@
+
+ General usage: 
+ ==============
+usage: ceph [-h] [-c CEPHCONF] [-i INPUT_FILE] [-o OUTPUT_FILE]
+            [--id CLIENT_ID] [--name CLIENT_NAME] [--cluster CLUSTER]
+            [--admin-daemon ADMIN_SOCKET] [-s] [-w] [--watch-debug]
+            [--watch-info] [--watch-sec] [--watch-warn] [--watch-error]
+            [--watch-channel {cluster,audit,*}] [--version] [--verbose]
+            [--concise] [-f {json,json-pretty,xml,xml-pretty,plain}]
+            [--connect-timeout CLUSTER_TIMEOUT] [--block] [--period PERIOD]
+
+Ceph administration tool
+
+optional arguments:
+  -h, --help            request mon help
+  -c CEPHCONF, --conf CEPHCONF
+                        ceph configuration file
+  -i INPUT_FILE, --in-file INPUT_FILE
+                        input file, or "-" for stdin
+  -o OUTPUT_FILE, --out-file OUTPUT_FILE
+                        output file, or "-" for stdout
+  --id CLIENT_ID, --user CLIENT_ID
+                        client id for authentication
+  --name CLIENT_NAME, -n CLIENT_NAME
+                        client name for authentication
+  --cluster CLUSTER     cluster name
+  --admin-daemon ADMIN_SOCKET
+                        submit admin-socket commands ("help" for help
+  -s, --status          show cluster status
+  -w, --watch           watch live cluster changes
+  --watch-debug         watch debug events
+  --watch-info          watch info events
+  --watch-sec           watch security events
+  --watch-warn          watch warn events
+  --watch-error         watch error events
+  --watch-channel {cluster,audit,*}
+                        which log channel to follow when using -w/--watch. One
+                        of ['cluster', 'audit', '*']
+  --version, -v         display version
+  --verbose             make verbose
+  --concise             make less verbose
+  -f {json,json-pretty,xml,xml-pretty,plain}, --format {json,json-pretty,xml,xml-pretty,plain}
+  --connect-timeout CLUSTER_TIMEOUT
+                        set a timeout for connecting to the cluster
+  --block               block until completion (scrub and deep-scrub only)
+  --period PERIOD, -p PERIOD
+                        polling period, default 1.0 second (for polling
+                        commands only)
+
+ Local commands: 
+ ===============
+
+ping <mon.id>           Send simple presence/life test to a mon
+                        <mon.id> may be 'mon.*' for all mons
+daemon {type.id|path} <cmd>
+                        Same as --admin-daemon, but auto-find admin socket
+daemonperf {type.id | path} [stat-pats] [priority] [<interval>] [<count>]
+daemonperf {type.id | path} list|ls [stat-pats] [priority]
+                        Get selected perf stats from daemon/admin socket
+                        Optional shell-glob comma-delim match string stat-pats
+                        Optional selection priority (can abbreviate name):
+                         critical, interesting, useful, noninteresting, debug
+                        List shows a table of all available stats
+                        Run <count> times (default forever),
+                         once per <interval> seconds (default 1)
+    
+
+ Monitor commands: 
+ =================
+auth add <entity> {<caps> [<caps>...]}  add auth info for <entity> from input 
+                                         file, or random key if no input is 
+                                         given, and/or any caps specified in 
+                                         the command
+auth caps <entity> <caps> [<caps>...]   update caps for <name> from caps 
+                                         specified in the command
+auth export {<entity>}                  write keyring for requested entity, or 
+                                         master keyring if none given
+auth get <entity>                       write keyring file with requested key
+auth get-key <entity>                   display requested key
+auth get-or-create <entity> {<caps>     add auth info for <entity> from input 
+ [<caps>...]}                            file, or random key if no input given, 
+                                         and/or any caps specified in the 
+                                         command
+auth get-or-create-key <entity>         get, or add, key for <name> from system/
+ {<caps> [<caps>...]}                    caps pairs specified in the command.  
+                                         If key already exists, any given caps 
+                                         must match the existing caps for that 
+                                         key.
+auth import                             auth import: read keyring file from -i 
+                                         <file>
+auth ls                                 list authentication state
+auth print-key <entity>                 display requested key
+auth print_key <entity>                 display requested key
+auth rm <entity>                        remove all caps for <name>
+balancer dump <plan>                    Show an optimization plan
+balancer eval {<option>}                Evaluate data distribution for the 
+                                         current cluster or specific pool or 
+                                         specific plan
+balancer eval-verbose {<option>}        Evaluate data distribution for the 
+                                         current cluster or specific pool or 
+                                         specific plan (verbosely)
+balancer execute <plan>                 Execute an optimization plan
+balancer mode none|crush-compat|upmap   Set balancer mode
+balancer off                            Disable automatic balancing
+balancer on                             Enable automatic balancing
+balancer optimize <plan> {<pools>       Run optimizer to create a new plan
+ [<pools>...]}                          
+balancer reset                          Discard all optimization plans
+balancer rm <plan>                      Discard an optimization plan
+balancer show <plan>                    Show details of an optimization plan
+balancer status                         Show balancer status
+config assimilate-conf                  Assimilate options from a conf, and 
+                                         return a new, minimal conf file
+config dump                             Show all configuration option(s)
+config get <who> {<key>}                Show configuration option(s) for an 
+                                         entity
+config help <key>                       Describe a configuration option
+config log {<int>}                      Show recent history of config changes
+config reset <int>                      Revert configuration to previous state
+config rm <who> <name>                  Clear a configuration option for one or 
+                                         more entities
+config set <who> <name> <value>         Set a configuration option for one or 
+                                         more entities
+config show <who> {<key>}               Show running configuration
+config show-with-defaults <who>         Show running configuration (including 
+                                         compiled-in defaults)
+config-key dump {<key>}                 dump keys and values (with optional 
+                                         prefix)
+config-key exists <key>                 check for <key>'s existence
+config-key get <key>                    get <key>
+config-key ls                           list keys
+config-key rm <key>                     rm <key>
+config-key set <key> {<val>}            set <key> to value <val>
+dashboard create-self-signed-cert       Create self signed certificate
+dashboard get-enable-browsable-api      Get the ENABLE_BROWSABLE_API option 
+                                         value
+dashboard get-rgw-api-access-key        Get the RGW_API_ACCESS_KEY option value
+dashboard get-rgw-api-admin-resource    Get the RGW_API_ADMIN_RESOURCE option 
+                                         value
+dashboard get-rgw-api-host              Get the RGW_API_HOST option value
+dashboard get-rgw-api-port              Get the RGW_API_PORT option value
+dashboard get-rgw-api-scheme            Get the RGW_API_SCHEME option value
+dashboard get-rgw-api-secret-key        Get the RGW_API_SECRET_KEY option value
+dashboard get-rgw-api-user-id           Get the RGW_API_USER_ID option value
+dashboard set-enable-browsable-api      Set the ENABLE_BROWSABLE_API option 
+ <value>                                 value
+dashboard set-login-credentials         Set the login credentials
+ <username> <password>                  
+dashboard set-rgw-api-access-key        Set the RGW_API_ACCESS_KEY option value
+ <value>                                
+dashboard set-rgw-api-admin-resource    Set the RGW_API_ADMIN_RESOURCE option 
+ <value>                                 value
+dashboard set-rgw-api-host <value>      Set the RGW_API_HOST option value
+dashboard set-rgw-api-port <int>        Set the RGW_API_PORT option value
+dashboard set-rgw-api-scheme <value>    Set the RGW_API_SCHEME option value
+dashboard set-rgw-api-secret-key        Set the RGW_API_SECRET_KEY option value
+ <value>                                
+dashboard set-rgw-api-user-id <value>   Set the RGW_API_USER_ID option value
+dashboard set-session-expire <int>      Set the session expire timeout
+df {detail}                             show cluster free space stats
+features                                report of connected features
+fs add_data_pool <fs_name> <pool>       add data pool <pool>
+fs authorize <filesystem> <entity>      add auth for <entity> to access file 
+ <caps> [<caps>...]                      system <filesystem> based on following 
+                                         directory and permissions pairs
+fs dump {<int[0-]>}                     dump all CephFS status, optionally from 
+                                         epoch
+fs flag set enable_multiple <val> {--   Set a global CephFS flag
+ yes-i-really-mean-it}                  
+fs get <fs_name>                        get info about one filesystem
+fs ls                                   list filesystems
+fs new <fs_name> <metadata> <data> {--  make new filesystem using named pools 
+ force} {--allow-dangerous-metadata-     <metadata> and <data>
+ overlay}                               
+fs reset <fs_name> {--yes-i-really-     disaster recovery only: reset to a 
+ mean-it}                                single-MDS map
+fs rm <fs_name> {--yes-i-really-mean-   disable the named filesystem
+ it}                                    
+fs rm_data_pool <fs_name> <pool>        remove data pool <pool>
+fs set <fs_name> max_mds|max_file_size| set fs parameter <var> to <val>
+ allow_new_snaps|inline_data|cluster_   
+ down|allow_dirfrags|balancer|standby_  
+ count_wanted|session_timeout|session_  
+ autoclose|down|joinable <val>          
+ {<confirm>}                            
+fs set-default <fs_name>                set the default to the named filesystem
+fs status {<fs>}                        Show the status of a CephFS filesystem
+fsid                                    show cluster FSID/UUID
+health {detail}                         show cluster health
+heap dump|start_profiler|stop_profiler| show heap usage info (available only if 
+ release|stats                           compiled with tcmalloc)
+hello {<person_name>}                   Prints hello world to mgr.x.log
+influx config-set <key> <value>         Set a configuration value
+influx config-show                      Show current configuration
+influx self-test                        debug the module
+influx send                             Force sending data to Influx
+injectargs <injected_args> [<injected_  inject config arguments into monitor
+ args>...]                              
+iostat                                  Get IO rates
+iostat self-test                        Run a self test the iostat module
+log <logtext> [<logtext>...]            log supplied text to the monitor log
+log last {<int[1-]>} {debug|info|sec|   print last few lines of the cluster log
+ warn|error} {*|cluster|audit}          
+mds compat rm_compat <int[0-]>          remove compatible feature
+mds compat rm_incompat <int[0-]>        remove incompatible feature
+mds compat show                         show mds compatibility settings
+mds count-metadata <property>           count MDSs by metadata field property
+mds fail <role_or_gid>                  Mark MDS failed: trigger a failover if 
+                                         a standby is available
+mds metadata {<who>}                    fetch metadata for mds <role>
+mds repaired <role>                     mark a damaged MDS rank as no longer 
+                                         damaged
+mds rm <int[0-]>                        remove nonactive mds
+mds rmfailed <role> {<confirm>}         remove failed mds
+mds set_state <int[0-]> <int[0-20]>     set mds state of <gid> to <numeric-
+                                         state>
+mds stat                                show MDS status
+mds versions                            check running versions of MDSs
+mgr count-metadata <property>           count ceph-mgr daemons by metadata 
+                                         field property
+mgr dump {<int[0-]>}                    dump the latest MgrMap
+mgr fail <who>                          treat the named manager daemon as failed
+mgr metadata {<who>}                    dump metadata for all daemons or a 
+                                         specific daemon
+mgr module disable <module>             disable mgr module
+mgr module enable <module> {--force}    enable mgr module
+mgr module ls                           list active mgr modules
+mgr self-test background start          Activate a background workload (one of 
+ <workload>                              command_spam, throw_exception)
+mgr self-test background stop           Stop background workload if any is 
+                                         running
+mgr self-test config get <key>          Peek at a configuration value
+mgr self-test config get_localized      Peek at a configuration value (
+ <key>                                   localized variant)
+mgr self-test run                       Run mgr python interface tests
+mgr services                            list service endpoints provided by mgr 
+                                         modules
+mgr versions                            check running versions of ceph-mgr 
+                                         daemons
+mon add <name> <IPaddr[:port]>          add new monitor named <name> at <addr>
+mon compact                             cause compaction of monitor's leveldb/
+                                         rocksdb storage
+mon count-metadata <property>           count mons by metadata field property
+mon dump {<int[0-]>}                    dump formatted monmap (optionally from 
+                                         epoch)
+mon feature ls {--with-value}           list available mon map features to be 
+                                         set/unset
+mon feature set <feature_name> {--yes-  set provided feature on mon map
+ i-really-mean-it}                      
+mon getmap {<int[0-]>}                  get monmap
+mon metadata {<id>}                     fetch metadata for mon <id>
+mon rm <name>                           remove monitor named <name>
+mon scrub                               scrub the monitor stores
+mon stat                                summarize monitor status
+mon sync force {--yes-i-really-mean-    force sync of and clear monitor store
+ it} {--i-know-what-i-am-doing}         
+mon versions                            check running versions of monitors
+mon_status                              report status of monitors
+node ls {all|osd|mon|mds|mgr}           list all nodes in cluster [type]
+osd add-nodown <ids> [<ids>...]         mark osd(s) <id> [<id>...] as nodown, 
+                                         or use <all|any> to mark all osds as 
+                                         nodown
+osd add-noin <ids> [<ids>...]           mark osd(s) <id> [<id>...] as noin, or 
+                                         use <all|any> to mark all osds as noin
+osd add-noout <ids> [<ids>...]          mark osd(s) <id> [<id>...] as noout, or 
+                                         use <all|any> to mark all osds as noout
+osd add-noup <ids> [<ids>...]           mark osd(s) <id> [<id>...] as noup, or 
+                                         use <all|any> to mark all osds as noup
+osd blacklist add|rm <EntityAddr>       add (optionally until <expire> seconds 
+ {<float[0.0-]>}                         from now) or remove <addr> from 
+                                         blacklist
+osd blacklist clear                     clear all blacklisted clients
+osd blacklist ls                        show blacklisted clients
+osd blocked-by                          print histogram of which OSDs are 
+                                         blocking their peers
+osd count-metadata <property>           count OSDs by metadata field property
+osd crush add <osdname (id|osd.id)>     add or update crushmap position and 
+ <float[0.0-]> <args> [<args>...]        weight for <name> with <weight> and 
+                                         location <args>
+osd crush add-bucket <name> <type>      add no-parent (probably root) crush 
+ {<args> [<args>...]}                    bucket <name> of type <type> to 
+                                         location <args>
+osd crush class ls                      list all crush device classes
+osd crush class ls-osd <class>          list all osds belonging to the specific 
+                                         <class>
+osd crush class rename <srcname>        rename crush device class <srcname> to 
+ <dstname>                               <dstname>
+osd crush create-or-move <osdname (id|  create entry or move existing entry for 
+ osd.id)> <float[0.0-]> <args> [<args>.  <name> <weight> at/to location <args>
+ ..]                                    
+osd crush dump                          dump crush map
+osd crush get-tunable straw_calc_       get crush tunable <tunable>
+ version                                
+osd crush link <name> <args> [<args>... link existing entry for <name> under 
+ ]                                       location <args>
+osd crush ls <node>                     list items beneath a node in the CRUSH 
+                                         tree
+osd crush move <name> <args> [<args>... move existing entry for <name> to 
+ ]                                       location <args>
+osd crush rename-bucket <srcname>       rename bucket <srcname> to <dstname>
+ <dstname>                              
+osd crush reweight <name> <float[0.0-]> change <name>'s weight to <weight> in 
+                                         crush map
+osd crush reweight-all                  recalculate the weights for the tree to 
+                                         ensure they sum correctly
+osd crush reweight-subtree <name>       change all leaf items beneath <name> to 
+ <float[0.0-]>                           <weight> in crush map
+osd crush rm <name> {<ancestor>}        remove <name> from crush map (
+                                         everywhere, or just at <ancestor>)
+osd crush rm-device-class <ids> [<ids>. remove class of the osd(s) <id> [<id>...
+ ..]                                     ],or use <all|any> to remove all.
+osd crush rule create-erasure <name>    create crush rule <name> for erasure 
+ {<profile>}                             coded pool created with <profile> (
+                                         default default)
+osd crush rule create-replicated        create crush rule <name> for replicated 
+ <name> <root> <type> {<class>}          pool to start from <root>, replicate 
+                                         across buckets of type <type>, using a 
+                                         choose mode of <firstn|indep> (default 
+                                         firstn; indep best for erasure pools)
+osd crush rule create-simple <name>     create crush rule <name> to start from 
+ <root> <type> {firstn|indep}            <root>, replicate across buckets of 
+                                         type <type>, using a choose mode of 
+                                         <firstn|indep> (default firstn; indep 
+                                         best for erasure pools)
+osd crush rule dump {<name>}            dump crush rule <name> (default all)
+osd crush rule ls                       list crush rules
+osd crush rule ls-by-class <class>      list all crush rules that reference the 
+                                         same <class>
+osd crush rule rename <srcname>         rename crush rule <srcname> to <dstname>
+ <dstname>                              
+osd crush rule rm <name>                remove crush rule <name>
+osd crush set <osdname (id|osd.id)>     update crushmap position and weight for 
+ <float[0.0-]> <args> [<args>...]        <name> to <weight> with location <args>
+osd crush set {<int>}                   set crush map from input file
+osd crush set-all-straw-buckets-to-     convert all CRUSH current straw buckets 
+ straw2                                  to use the straw2 algorithm
+osd crush set-device-class <class>      set the <class> of the osd(s) <id> 
+ <ids> [<ids>...]                        [<id>...],or use <all|any> to set all.
+osd crush set-tunable straw_calc_       set crush tunable <tunable> to <value>
+ version <int>                          
+osd crush show-tunables                 show current crush tunables
+osd crush swap-bucket <source> <dest>   swap existing bucket contents from (
+ {--yes-i-really-mean-it}                orphan) bucket <source> and <target>
+osd crush tree {--show-shadow}          dump crush buckets and items in a tree 
+                                         view
+osd crush tunables legacy|argonaut|     set crush tunables values to <profile>
+ bobtail|firefly|hammer|jewel|optimal|  
+ default                                
+osd crush unlink <name> {<ancestor>}    unlink <name> from crush map (
+                                         everywhere, or just at <ancestor>)
+osd crush weight-set create <poolname>  create a weight-set for a given pool
+ flat|positional                        
+osd crush weight-set create-compat      create a default backward-compatible 
+                                         weight-set
+osd crush weight-set dump               dump crush weight sets
+osd crush weight-set ls                 list crush weight sets
+osd crush weight-set reweight           set weight for an item (bucket or osd) 
+ <poolname> <item> <float[0.0-]>         in a pool's weight-set
+ [<float[0.0-]>...]                     
+osd crush weight-set reweight-compat    set weight for an item (bucket or osd) 
+ <item> <float[0.0-]> [<float[0.0-]>...  in the backward-compatible weight-set
+ ]                                      
+osd crush weight-set rm <poolname>      remove the weight-set for a given pool
+osd crush weight-set rm-compat          remove the backward-compatible weight-
+                                         set
+osd deep-scrub <who>                    initiate deep scrub on osd <who>, or 
+                                         use <all|any> to deep scrub all
+osd destroy <osdname (id|osd.id)> {--   mark osd as being destroyed. Keeps the 
+ yes-i-really-mean-it}                   ID intact (allowing reuse), but 
+                                         removes cephx keys, config-key data 
+                                         and lockbox keys, rendering data 
+                                         permanently unreadable.
+osd df {plain|tree}                     show OSD utilization
+osd down <ids> [<ids>...]               set osd(s) <id> [<id>...] down, or use 
+                                         <any|all> to set all osds down
+osd dump {<int[0-]>}                    print summary of OSD map
+osd erasure-code-profile get <name>     get erasure code profile <name>
+osd erasure-code-profile ls             list all erasure code profiles
+osd erasure-code-profile rm <name>      remove erasure code profile <name>
+osd erasure-code-profile set <name>     create erasure code profile <name> with 
+ {<profile> [<profile>...]}              [<key[=value]> ...] pairs. Add a --
+                                         force at the end to override an 
+                                         existing profile (VERY DANGEROUS)
+osd find <osdname (id|osd.id)>          find osd <id> in the CRUSH map and show 
+                                         its location
+osd force-create-pg {--yes-i-really-    force creation of pg <pgid>
+ mean-it}                               
+osd get-require-min-compat-client       get the minimum client version we will 
+                                         maintain compatibility with
+osd getcrushmap {<int[0-]>}             get CRUSH map
+osd getmap {<int[0-]>}                  get OSD map
+osd getmaxosd                           show largest OSD id
+osd in <ids> [<ids>...]                 set osd(s) <id> [<id>...] in, can use 
+                                         <any|all> to automatically set all 
+                                         previously out osds in
+osd last-stat-seq <osdname (id|osd.id)> get the last pg stats sequence number 
+                                         reported for this osd
+osd lost <osdname (id|osd.id)> {--yes-  mark osd as permanently lost. THIS 
+ i-really-mean-it}                       DESTROYS DATA IF NO MORE REPLICAS 
+                                         EXIST, BE CAREFUL
+osd ls {<int[0-]>}                      show all OSD ids
+osd ls-tree {<int[0-]>} <name>          show OSD ids under bucket <name> in the 
+                                         CRUSH map
+osd lspools {<int>}                     list pools
+osd map <poolname> <objectname>         find pg for <object> in <pool> with 
+ {<nspace>}                              [namespace]
+osd metadata {<osdname (id|osd.id)>}    fetch metadata for osd {id} (default 
+                                         all)
+osd new <uuid> {<osdname (id|osd.id)>}  Create a new OSD. If supplied, the `id` 
+                                         to be replaced needs to exist and have 
+                                         been previously destroyed. Reads 
+                                         secrets from JSON file via `-i <file>` 
+                                         (see man page).
+osd ok-to-stop <ids> [<ids>...]         check whether osd(s) can be safely 
+                                         stopped without reducing immediate 
+                                         data availability
+osd out <ids> [<ids>...]                set osd(s) <id> [<id>...] out, or use 
+                                         <any|all> to set all osds out
+osd pause                               pause osd
+osd perf                                print dump of OSD perf summary stats
+osd pg-temp <pgid> {<osdname (id|osd.   set pg_temp mapping pgid:[<id> [<id>...
+ id)> [<osdname (id|osd.id)>...]}        ]] (developers only)
+osd pg-upmap <pgid> <osdname (id|osd.   set pg_upmap mapping <pgid>:[<id> [<id>.
+ id)> [<osdname (id|osd.id)>...]         ..]] (developers only)
+osd pg-upmap-items <pgid> <osdname (id| set pg_upmap_items mapping <pgid>:{<id> 
+ osd.id)> [<osdname (id|osd.id)>...]     to <id>, [...]} (developers only)
+osd pool application disable            disables use of an application <app> on 
+ <poolname> <app> {--yes-i-really-mean-  pool <poolname>
+ it}                                    
+osd pool application enable <poolname>  enable use of an application <app> 
+ <app> {--yes-i-really-mean-it}          [cephfs,rbd,rgw] on pool <poolname>
+osd pool application get {<poolname>}   get value of key <key> of application 
+ {<app>} {<key>}                         <app> on pool <poolname>
+osd pool application rm <poolname>      removes application <app> metadata key 
+ <app> <key>                             <key> on pool <poolname>
+osd pool application set <poolname>     sets application <app> metadata key 
+ <app> <key> <value>                     <key> to <value> on pool <poolname>
+osd pool create <poolname> <int[0-]>    create pool
+ {<int[0-]>} {replicated|erasure}       
+ {<erasure_code_profile>} {<rule>}      
+ {<int>}                                
+osd pool get <poolname> size|min_size|  get pool parameter <var>
+ pg_num|pgp_num|crush_rule|hashpspool|  
+ nodelete|nopgchange|nosizechange|      
+ write_fadvise_dontneed|noscrub|nodeep- 
+ scrub|hit_set_type|hit_set_period|hit_ 
+ set_count|hit_set_fpp|use_gmt_hitset|  
+ auid|target_max_objects|target_max_    
+ bytes|cache_target_dirty_ratio|cache_  
+ target_dirty_high_ratio|cache_target_  
+ full_ratio|cache_min_flush_age|cache_  
+ min_evict_age|erasure_code_profile|    
+ min_read_recency_for_promote|all|min_  
+ write_recency_for_promote|fast_read|   
+ hit_set_grade_decay_rate|hit_set_      
+ search_last_n|scrub_min_interval|      
+ scrub_max_interval|deep_scrub_         
+ interval|recovery_priority|recovery_   
+ op_priority|scrub_priority|            
+ compression_mode|compression_          
+ algorithm|compression_required_ratio|  
+ compression_max_blob_size|compression_ 
+ min_blob_size|csum_type|csum_min_      
+ block|csum_max_block|allow_ec_         
+ overwrites                             
+osd pool get-quota <poolname>           obtain object or byte limits for pool
+osd pool ls {detail}                    list pools
+osd pool mksnap <poolname> <snap>       make snapshot <snap> in <pool>
+osd pool rename <poolname> <poolname>   rename <srcpool> to <destpool>
+osd pool rm <poolname> {<poolname>}     remove pool
+ {<sure>}                               
+osd pool rmsnap <poolname> <snap>       remove snapshot <snap> from <pool>
+osd pool set <poolname> size|min_size|  set pool parameter <var> to <val>
+ pg_num|pgp_num|crush_rule|hashpspool|  
+ nodelete|nopgchange|nosizechange|      
+ write_fadvise_dontneed|noscrub|nodeep- 
+ scrub|hit_set_type|hit_set_period|hit_ 
+ set_count|hit_set_fpp|use_gmt_hitset|  
+ target_max_bytes|target_max_objects|   
+ cache_target_dirty_ratio|cache_target_ 
+ dirty_high_ratio|cache_target_full_    
+ ratio|cache_min_flush_age|cache_min_   
+ evict_age|auid|min_read_recency_for_   
+ promote|min_write_recency_for_promote| 
+ fast_read|hit_set_grade_decay_rate|    
+ hit_set_search_last_n|scrub_min_       
+ interval|scrub_max_interval|deep_      
+ scrub_interval|recovery_priority|      
+ recovery_op_priority|scrub_priority|   
+ compression_mode|compression_          
+ algorithm|compression_required_ratio|  
+ compression_max_blob_size|compression_ 
+ min_blob_size|csum_type|csum_min_      
+ block|csum_max_block|allow_ec_         
+ overwrites <val> {--yes-i-really-mean- 
+ it}                                    
+osd pool set-quota <poolname> max_      set object or byte limit on pool
+ objects|max_bytes <val>                
+osd pool stats {<poolname>}             obtain stats from all pools, or from 
+                                         specified pool
+osd primary-affinity <osdname (id|osd.  adjust osd primary-affinity from 0.0 <= 
+ id)> <float[0.0-1.0]>                   <weight> <= 1.0
+osd primary-temp <pgid> <osdname (id|   set primary_temp mapping pgid:<id>|-1 (
+ osd.id)>                                developers only)
+osd purge <osdname (id|osd.id)> {--yes- purge all osd data from the monitors. 
+ i-really-mean-it}                       Combines `osd destroy`, `osd rm`, and `
+                                         osd crush rm`.
+osd repair <who>                        initiate repair on osd <who>, or use 
+                                         <all|any> to repair all
+osd require-osd-release luminous|mimic  set the minimum allowed OSD release to 
+ {--yes-i-really-mean-it}                participate in the cluster
+osd reweight <osdname (id|osd.id)>      reweight osd to 0.0 < <weight> < 1.0
+ <float[0.0-1.0]>                       
+osd reweight-by-pg {<int>} {<float>}    reweight OSDs by PG distribution 
+ {<int>} {<poolname> [<poolname>...]}    [overload-percentage-for-consideration,
+                                          default 120]
+osd reweight-by-utilization {<int>}     reweight OSDs by utilization [overload-
+ {<float>} {<int>} {--no-increasing}     percentage-for-consideration, default 1
+                                         20]
+osd reweightn <weights>                 reweight osds with {<id>: <weight>,...})
+osd rm <ids> [<ids>...]                 remove osd(s) <id> [<id>...], or use 
+                                         <any|all> to remove all osds
+osd rm-nodown <ids> [<ids>...]          allow osd(s) <id> [<id>...] to be 
+                                         marked down (if they are currently 
+                                         marked as nodown), can use <all|any> 
+                                         to automatically filter out all nodown 
+                                         osds
+osd rm-noin <ids> [<ids>...]            allow osd(s) <id> [<id>...] to be 
+                                         marked in (if they are currently 
+                                         marked as noin), can use <all|any> to 
+                                         automatically filter out all noin osds
+osd rm-noout <ids> [<ids>...]           allow osd(s) <id> [<id>...] to be 
+                                         marked out (if they are currently 
+                                         marked as noout), can use <all|any> to 
+                                         automatically filter out all noout osds
+osd rm-noup <ids> [<ids>...]            allow osd(s) <id> [<id>...] to be 
+                                         marked up (if they are currently 
+                                         marked as noup), can use <all|any> to 
+                                         automatically filter out all noup osds
+osd rm-pg-upmap <pgid>                  clear pg_upmap mapping for <pgid> (
+                                         developers only)
+osd rm-pg-upmap-items <pgid>            clear pg_upmap_items mapping for <pgid> 
+                                         (developers only)
+osd safe-to-destroy <ids> [<ids>...]    check whether osd(s) can be safely 
+                                         destroyed without reducing data 
+                                         durability
+osd scrub <who>                         initiate scrub on osd <who>, or use 
+                                         <all|any> to scrub all
+osd set full|pause|noup|nodown|noout|   set <key>
+ noin|nobackfill|norebalance|norecover| 
+ noscrub|nodeep-scrub|notieragent|      
+ nosnaptrim|sortbitwise|recovery_       
+ deletes|require_jewel_osds|require_    
+ kraken_osds {--yes-i-really-mean-it}   
+osd set-backfillfull-ratio <float[0.0-1 set usage ratio at which OSDs are 
+ .0]>                                    marked too full to backfill
+osd set-full-ratio <float[0.0-1.0]>     set usage ratio at which OSDs are 
+                                         marked full
+osd set-nearfull-ratio <float[0.0-1.0]> set usage ratio at which OSDs are 
+                                         marked near-full
+osd set-require-min-compat-client       set the minimum client version we will 
+ <version> {--yes-i-really-mean-it}      maintain compatibility with
+osd setcrushmap {<int>}                 set crush map from input file
+osd setmaxosd <int[0-]>                 set new maximum osd value
+osd smart get <osd_id>                  Get smart data for osd.id
+osd stat                                print summary of OSD map
+osd status {<bucket>}                   Show the status of OSDs within a bucket,
+                                          or all
+osd test-reweight-by-pg {<int>}         dry run of reweight OSDs by PG 
+ {<float>} {<int>} {<poolname>           distribution [overload-percentage-for-
+ [<poolname>...]}                        consideration, default 120]
+osd test-reweight-by-utilization        dry run of reweight OSDs by utilization 
+ {<int>} {<float>} {<int>} {--no-        [overload-percentage-for-consideration,
+ increasing}                              default 120]
+osd tier add <poolname> <poolname> {--  add the tier <tierpool> (the second one)
+ force-nonempty}                          to base pool <pool> (the first one)
+osd tier add-cache <poolname>           add a cache <tierpool> (the second one) 
+ <poolname> <int[0-]>                    of size <size> to existing pool <pool> 
+                                         (the first one)
+osd tier cache-mode <poolname> none|    specify the caching mode for cache tier 
+ writeback|forward|readonly|             <pool>
+ readforward|proxy|readproxy {--yes-i-  
+ really-mean-it}                        
+osd tier rm <poolname> <poolname>       remove the tier <tierpool> (the second 
+                                         one) from base pool <pool> (the first 
+                                         one)
+osd tier rm-overlay <poolname>          remove the overlay pool for base pool 
+                                         <pool>
+osd tier set-overlay <poolname>         set the overlay pool for base pool 
+ <poolname>                              <pool> to be <overlaypool>
+osd tree {<int[0-]>} {up|down|in|out|   print OSD tree
+ destroyed [up|down|in|out|destroyed... 
+ ]}                                     
+osd tree-from {<int[0-]>} <bucket> {up| print OSD tree in bucket
+ down|in|out|destroyed [up|down|in|out| 
+ destroyed...]}                         
+osd unpause                             unpause osd
+osd unset full|pause|noup|nodown|noout| unset <key>
+ noin|nobackfill|norebalance|norecover| 
+ noscrub|nodeep-scrub|notieragent|      
+ nosnaptrim                             
+osd utilization                         get basic pg distribution stats
+osd versions                            check running versions of OSDs
+pg cancel-force-backfill <pgid>         restore normal backfill priority of 
+ [<pgid>...]                             <pgid>
+pg cancel-force-recovery <pgid>         restore normal recovery priority of 
+ [<pgid>...]                             <pgid>
+pg debug unfound_objects_exist|         show debug info about pgs
+ degraded_pgs_exist                     
+pg deep-scrub <pgid>                    start deep-scrub on <pgid>
+pg dump {all|summary|sum|delta|pools|   show human-readable versions of pg map (
+ osds|pgs|pgs_brief [all|summary|sum|    only 'all' valid with plain)
+ delta|pools|osds|pgs|pgs_brief...]}    
+pg dump_json {all|summary|sum|pools|    show human-readable version of pg map 
+ osds|pgs [all|summary|sum|pools|osds|   in json only
+ pgs...]}                               
+pg dump_pools_json                      show pg pools info in json only
+pg dump_stuck {inactive|unclean|stale|  show information about stuck pgs
+ undersized|degraded [inactive|unclean| 
+ stale|undersized|degraded...]} {<int>} 
+pg force-backfill <pgid> [<pgid>...]    force backfill of <pgid> first
+pg force-recovery <pgid> [<pgid>...]    force recovery of <pgid> first
+pg getmap                               get binary pg map to -o/stdout
+pg ls {<int>} {<states> [<states>...]}  list pg with specific pool, osd, state
+pg ls-by-osd <osdname (id|osd.id)>      list pg on osd [osd]
+ {<int>} {<states> [<states>...]}       
+pg ls-by-pool <poolstr> {<states>       list pg with pool = [poolname]
+ [<states>...]}                         
+pg ls-by-primary <osdname (id|osd.id)>  list pg with primary = [osd]
+ {<int>} {<states> [<states>...]}       
+pg map <pgid>                           show mapping of pg to osds
+pg repair <pgid>                        start repair on <pgid>
+pg scrub <pgid>                         start scrub on <pgid>
+pg stat                                 show placement group status.
+prometheus file_sd_config               Return file_sd compatible prometheus 
+                                         config for mgr cluster
+prometheus self-test                    Run a self test on the prometheus module
+quorum enter|exit                       enter or exit quorum
+quorum_status                           report status of monitor quorum
+report {<tags> [<tags>...]}             report full status of cluster, optional 
+                                         title tag strings
+restful create-key <key_name>           Create an API key with this name
+restful create-self-signed-cert         Create localized self signed certificate
+restful delete-key <key_name>           Delete an API key with this name
+restful list-keys                       List all API keys
+restful restart                         Restart API server
+service dump                            dump service map
+service status                          dump service state
+status                                  show cluster status
+telegraf config-set <key> <value>       Set a configuration value
+telegraf config-show                    Show current configuration
+telegraf self-test                      debug the module
+telegraf send                           Force sending data to Telegraf
+telemetry config-set <key> <value>      Set a configuration value
+telemetry config-show                   Show current configuration
+telemetry self-test                     Perform a self-test
+telemetry send                          Force sending data to Ceph telemetry
+telemetry show                          Show last report or report to be sent
+tell <name (type.id)> <args> [<args>... send a command to a specific daemon
+ ]                                      
+time-sync-status                        show time sync status
+version                                 show mon daemon version
+versions                                check running versions of ceph daemons
+zabbix config-set <key> <value>         Set a configuration value
+zabbix config-show                      Show current configuration
+zabbix self-test                        Run a self-test on the Zabbix module
+zabbix send                             Force sending data to Zabbix

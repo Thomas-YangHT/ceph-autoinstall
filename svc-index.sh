@@ -11,8 +11,14 @@ cat <<EOF >svc-ceph.html
 	  <li><a href='http://$NODE1_IP:3000        '>grafana     </a></li>
 	  <li><a href='http://$NODE1_IP:9090        '>prometheus  </a></li>
 	  <li><a href='http://$NODE3_IP:7480        '>rgw         </a></li>
-	  <li><a href='tcp://$NODE1_IP:6789         '>[cephfs:]    modprobe rbd;  mkdir /mnt/mycephfs;  mount -t ceph $NODE1_IP:6789,$NODE2_IP:6789,$NODE3_IP:6789:/ /mnt/mycephfs -o name=admin,secret=`ssh  $REMOTE_USER@$NODE1_IP docker exec mon ceph auth get-key client.admin`
-			</a></li>
+	  <li><a href='tcp://$NODE1_IP:6789         '>[cephfs:]   </a> modprobe rbd;  mkdir /mnt/mycephfs;  mount -t ceph $NODE1_IP:6789,$NODE2_IP:6789,$NODE3_IP:6789:/ /mnt/mycephfs -o name=admin,secret=`ssh  $REMOTE_USER@$NODE1_IP docker exec mon ceph auth get-key client.admin` </li>
+
+	  <li><a href='https://$VIP_IP:18443       '>[hadashboard]   </a></li>
+	  <li><a href='http://$VIP_IP:13000        '>[hagrafana]     </a></li>
+	  <li><a href='http://$VIP_IP:19090        '>[haprometheus]  </a></li>
+	  <li><a href='http://$VIP_IP:17480        '>[hargw]         </a></li>
+	  <li><a href='tcp://$VIP_IP:16789         '>[hacephfs:]     </a> modprobe rbd;  mkdir /mnt/mycephfs;  mount -t ceph $VIP_IP:16789:/ /mnt/mycephfs -o name=admin,secret=`ssh  $REMOTE_USER@$NODE1_IP docker exec mon ceph auth get-key client.admin` </li>
+	  <li><a href='http://$VIP_IP:9091/haproxy_stats '>[haproxy_stats]   </a></li>
 </ul>
 EOF
 

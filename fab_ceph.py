@@ -1,8 +1,30 @@
 from fabric.api import *
 
+#for ha
+def prepare_ha():
+    local('sh haproxy_conf.sh')
+    local('sh hosts_conf.sh')
+    put('ha.tgz', '')
+    put('haproxy.cfg','ceph/haproxy.cfg')
+    put('hosts','ceph/hosts')
+    run('tar zxvf ha.tgz -C ceph')
+    run('echo -e "haproxy.tar\n keepalived.tar"|awk \'{print "docker load <ceph/"$1}\'|sh')
+    run('[ -f hosts.bak ] || cp /etc/hosts hosts.bak;cat hosts.bak ceph/hosts >hosts.tmp;sudo cp hosts.tmp /etc/hosts')
+
+#for ha
+def keepalived():
+    run('docker rm keepalived -f;pwd')
+    run('sudo modprobe ip_vs ip_vs_rr ip_vs_wrr ip_vs_sh')
+    run('cd ceph;sh docker-keepalived.sh')
+
+#for ha
+def haproxy():
+    run('docker rm haproxy -f;pwd')
+    run('cd ceph;sh docker-haproxy.sh')
+
 def prepare():
     local('sh prometheus.yml.sh')
-    local('tar zcvf config.tgz docker*sh CONFIG ceph.conf.add dashboard-rgw.sh grafana prometheus.yml')
+    local('tar zcvf config.tgz docker*sh CONFIG ceph.conf.add dashboard-rgw.sh grafana prometheus.yml haproxy.cfg hosts')
     put('config.tgz','')
     put('ceph.tgz','')
     run('mkdir ceph;tar zxvf config.tgz -C ceph;tar zxvf ceph.tgz -C ceph')
@@ -44,6 +66,9 @@ def rgw():
 def mgr():
     run('sh ceph/docker-mgr.sh')
 
+def rbd():
+    run('sh ceph/docker-rbd.sh')
+
 def dashboard():  #7000
     run('docker exec mgr ceph mgr module enable dashboard')
     run('docker exec mgr ceph dashboard create-self-signed-cert')
@@ -65,6 +90,7 @@ def grafana():  #3000
     run('sh ceph/docker-grafana.sh')
 
 def status():
+    run('cat /etc/motd;docker exec mon ceph -v;uname -a')
     run('docker exec mon ceph -s')
     run('docker exec mgr ceph mgr services')
 
@@ -80,3 +106,7 @@ def start():
     run('docker start mgr;sleep 5')
     run('docker start osd;sleep 5')
     run('docker ps -a|grep Exited|awk \'{print $1}\'|xargs docker start ')
+
+def reboot():
+    run('echo "reboot $HOSTNAME";sudo reboot;')
+

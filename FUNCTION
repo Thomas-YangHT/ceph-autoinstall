@@ -1,3 +1,18 @@
+#ha prepare
+func_ha_prepare(){
+        fab -H $NODES -f fab_ceph.py prepare_ha -u core -P --colorize-errors
+}
+
+#keepalived
+func_keepalived(){
+        fab -H $NODES -f fab_ceph.py keepalived -u core -P --colorize-errors
+}
+
+#haproxy
+func_haproxy(){
+        fab -H $NODES -f fab_ceph.py haproxy -u core -P --colorize-errors
+}
+
 func_prepare(){
     fab -H $NODES -f fab_ceph.py prepare   -u $REMOTE_USER -P --colorize-errors
 }
@@ -30,6 +45,10 @@ func_mgr(){
     fab -H $NODES -f fab_ceph.py mgr -u $REMOTE_USER -P --colorize-errors
 }
 
+func_rbd(){
+    fab -H $NODES -f fab_ceph.py rbd -u $REMOTE_USER -P --colorize-errors
+}
+
 func_dashboard(){
     fab -H $NODE1_IP -f fab_ceph.py dashboard -u $REMOTE_USER --colorize-errors
     fab -H $NODE1_IP -f fab_ceph.py dashboard_rgw -u $REMOTE_USER --colorize-errors
@@ -46,9 +65,19 @@ func_reset(){
 }
 
 func_status(){
-    fab -H $NODE1_IP -f fab_ceph.py status -u $REMOTE_USER --colorize-errors
+    fab -H $NODE1_IP -f fab_ceph.py status -u $REMOTE_USER --colorize-errors|tee finish
+    sh svc-index.sh
+    str="\n"`cat README.md |head -7|tail -n +2|sed 's/#/ /g'`
+    str+="\n"`cat finish |awk -F'out:' '{print $2}'|grep -vP "^$"`
+    str+="\nPlease browse [svc-index.html] which include dashboard and services to enjoy CEPH.\n\nEND."
+    echo -e "\033[45;42m $str \033[0m"
 }
 
 func_start(){
     fab -H $NODES -f fab_ceph.py start -u $REMOTE_USER -P --colorize-errors
 }
+
+func_reboot(){
+    fab -H $NODES -f fab_ceph.py reboot -u core -P --colorize-errors
+}
+	
