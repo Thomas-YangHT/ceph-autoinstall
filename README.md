@@ -6,6 +6,7 @@
  |_____| |_| |_| |_|  \__,_| /_/\_\ |_|  |_|  \__,_| |_| |_|
 ```
 TO install CEPH mimic 13.2.2 on coreos
+---
 
 * [step 1:]
     download related files:
@@ -15,15 +16,15 @@ TO install CEPH mimic 13.2.2 on coreos
     vim CONFIG
 
 
-* step 3:
+* [step 3:]
     clone corebase2 kvm & config IP & add one virtual disk.
     (see clone_coreos/clone_machine.sh)
 
-* step 4:
+* [step 4:]
     sh install.sh all
 
 
-* step 5:
+* [step 5:]
     browse svc-index.html to enjoy CEPH
 
 
