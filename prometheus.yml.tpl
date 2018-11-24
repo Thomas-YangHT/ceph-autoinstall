@@ -19,17 +19,19 @@ rule_files:
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
 scrape_configs:
-  # The job name is added as a label job=<job_name> to any timeseries scraped from this config.
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'prometheus'
+
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
+
     static_configs:
-    - targets: ['192.168.253.35:9090']
+    - targets: ['$NODE1_IP:9090']
   - job_name: 'ceph'
     static_configs:
-      - targets: ['192.168.253.35:9283']
-      - targets: ['192.168.253.36:9283']
-      - targets: ['192.168.253.37:9283']
+      - targets: ['$NODE1_IP:9283']
+      - targets: ['$NODE2_IP:9283']
+      - targets: ['$NODE3_IP:9283']
   - job_name: 'node-exporter'
     static_configs:
-      - targets: ['192.168.253.35:9128']
+      - targets: ['$NODE1_IP:9128']

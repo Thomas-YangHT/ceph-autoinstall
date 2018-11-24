@@ -10,7 +10,7 @@ coreos:
         Name=eth0  
 
         [Network] 
-        Address=192.168.31.14/24  
+        Address=192.168.253.36/24  
         Gateway=192.168.253.125  
         DNS=192.168.253.110
         DNS=114.114.114.114

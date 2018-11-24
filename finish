@@ -1,0 +1,40 @@
+[192.168.253.35] Executing task 'status'
+[192.168.253.35] run: cat /etc/motd;docker exec mon ceph -v;uname -a
+[192.168.253.35] out: [38;5;75mContainer Linux by CoreOS[39m stable (1855.4.0)
+[192.168.253.35] out: ceph version 13.2.2 (02899bfda814146b021136e9d8e80eba494e1126) mimic (stable)
+[192.168.253.35] out: Linux node1 4.14.67-coreos #1 SMP Mon Sep 10 23:14:26 UTC 2018 x86_64 Intel Xeon E3-12xx v2 (Ivy Bridge, IBRS) GenuineIntel GNU/Linux
+[192.168.253.35] out: 
+
+[192.168.253.35] run: docker exec mon ceph -s
+[192.168.253.35] out:   cluster:
+[192.168.253.35] out:     id:     b553cc71-4b66-4ecf-96ec-664b596fedbf
+[192.168.253.35] out:     health: HEALTH_WARN
+[192.168.253.35] out:             1 pools have many more objects per pg than average
+[192.168.253.35] out:             No Zabbix server configured
+[192.168.253.35] out:             clock skew detected on mon.node3
+[192.168.253.35] out:  
+[192.168.253.35] out:   services:
+[192.168.253.35] out:     mon:        3 daemons, quorum node1,node2,node3
+[192.168.253.35] out:     mgr:        node1(active), standbys: node2, node3
+[192.168.253.35] out:     mds:        cephfs-1/1/1 up  {0=node2=up:active}
+[192.168.253.35] out:     osd:        6 osds: 6 up, 6 in
+[192.168.253.35] out:     rbd-mirror: 1 daemon active
+[192.168.253.35] out:  
+[192.168.253.35] out:   data:
+[192.168.253.35] out:     pools:   6 pools, 416 pgs
+[192.168.253.35] out:     objects: 48.55 k objects, 3.0 GiB
+[192.168.253.35] out:     usage:   15 GiB used, 103 GiB / 118 GiB avail
+[192.168.253.35] out:     pgs:     416 active+clean
+[192.168.253.35] out:  
+[192.168.253.35] out: 
+
+[192.168.253.35] run: docker exec mgr ceph mgr services
+[192.168.253.35] out: {
+[192.168.253.35] out:     "dashboard": "https://node1:8443/",
+[192.168.253.35] out:     "prometheus": "http://node1:9283/"
+[192.168.253.35] out: }
+[192.168.253.35] out: 
+
+
+Done.
+Disconnecting from 192.168.253.35... done.

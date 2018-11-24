@@ -102,6 +102,7 @@ def reset():
     run('source ./ceph/CONFIG;sudo dd if=/dev/zero of=${OSD_DEVICE} bs=1M')
 
 def start():
+    run('sudo modprobe ip_vs ip_vs_rr ip_vs_wrr ip_vs_sh')
     run('docker start mon;sleep 10')
     run('docker start mgr;sleep 5')
     run('docker start osd;sleep 5')

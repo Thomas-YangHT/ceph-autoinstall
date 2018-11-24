@@ -1,0 +1,15 @@
+<h1>service目录</h1>
+<ul>
+	  <li><a href='https://192.168.253.35:8443  '>dashboard   </a></li>
+	  <li><a href='http://192.168.253.35:3000        '>grafana     </a></li>
+	  <li><a href='http://192.168.253.35:9090        '>prometheus  </a></li>
+	  <li><a href='http://192.168.253.37:7480        '>rgw         </a></li>
+	  <li><a href='tcp://192.168.253.35:6789         '>[cephfs:]   </a> modprobe rbd;  mkdir /mnt/mycephfs;  mount -t ceph 192.168.253.35:6789,192.168.253.36:6789,192.168.253.37:6789:/ /mnt/mycephfs -o name=admin,secret=AQBZxvBbKdOeIBAAG6vvtSpOzmCe5RHrLPn4pw== </li>
+
+	  <li><a href='https://192.168.253.38:18443       '>[hadashboard]   </a></li>
+	  <li><a href='http://192.168.253.38:13000        '>[hagrafana]     </a></li>
+	  <li><a href='http://192.168.253.38:19090        '>[haprometheus]  </a></li>
+	  <li><a href='http://192.168.253.38:17480        '>[hargw]         </a></li>
+	  <li><a href='tcp://192.168.253.38:16789         '>[hacephfs:]     </a> modprobe rbd;  mkdir /mnt/mycephfs;  mount -t ceph 192.168.253.38:16789:/ /mnt/mycephfs -o name=admin,secret=AQBZxvBbKdOeIBAAG6vvtSpOzmCe5RHrLPn4pw== </li>
+	  <li><a href='http://192.168.253.38:9091/haproxy_stats '>[haproxy_stats]   </a></li>
+</ul>

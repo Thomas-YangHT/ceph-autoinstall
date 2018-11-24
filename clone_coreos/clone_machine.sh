@@ -15,6 +15,7 @@ do
    virsh start $PJ-$i
    while [ 1 ] 
    do 
+ #      BASE_IP=$PJ-$i
        ping -c 1 $BASE_IP
        [ $? = 0 ] && scp user_data.$i core@$BASE_IP:user_data && \
        ssh core@$BASE_IP sudo cp user_data /var/lib/coreos-install/ && \
