@@ -63,6 +63,7 @@ OPTIONS:
         all            :install all components.
 ```
 -----
+# weixin public accunt: LinuxMan
 <img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/linuxman.png" width="500">
 
 # [linux command HELP,try input some cmd, such as lsof]
