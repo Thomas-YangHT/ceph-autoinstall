@@ -16,19 +16,28 @@
 
 * [step 2:]
     vim CONFIG
-<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c1.jpg" width="500">
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c1.png" width="500">
 
 
 * [step 3:]
     clone corebase2 kvm & config IP & add one virtual disk.
     (see clone_coreos/clone_machine.sh)
-
+  * kvm define coreosbase2.xml
+  * cd clone_coreos; sh -x clone_machine.sh
 * [step 4:]
     sh install.sh all
-
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c2.png" width="500">
 
 * [step 5:]
     browse svc-index.html to enjoy CEPH
+    * sh install.sh status
+    * modify grafana's datasource prometheus IP as node1's IP
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c3.png" width="500">
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c4.png" width="500">
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c5.png" width="500">
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c6.png" width="500">
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c7.png" width="500">
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c8.png" width="500">
 
 
 # more usage:
