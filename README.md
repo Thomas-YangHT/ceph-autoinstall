@@ -39,7 +39,6 @@
 <img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c7.png" width="500">
 <img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c8.png" width="500">
 
-
 # more usage:
 ```
 usage: install.sh [OPTION]
@@ -63,4 +62,6 @@ OPTIONS:
         start          :start all ceph container in cluster.
         all            :install all components.
 ```
-# END.
+-----
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/linuxman.png" width="500">
+linux command HELP,try input some cmd, such as lsof.
