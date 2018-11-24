@@ -5,7 +5,7 @@
  | |___  | | | | | | | |_| |  >  <  | |  | | | (_| | | | | |
  |_____| |_| |_| |_|  \__,_| /_/\_\ |_|  |_|  \__,_| |_| |_|
 ```
-#TO install CEPH mimic 13.2.2 on coreos
+# TO install CEPH mimic 13.2.2 on coreos
 
 * [step 1:]
     download related files:
@@ -50,4 +50,4 @@ OPTIONS:
         start          :start all ceph container in cluster.
         all            :install all components.
 ```
-#END.
+# END.
