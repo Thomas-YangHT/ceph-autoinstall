@@ -5,14 +5,15 @@
  | |___  | | | | | | | |_| |  >  <  | |  | | | (_| | | | | |
  |_____| |_| |_| |_|  \__,_| /_/\_\ |_|  |_|  \__,_| |_| |_|
 ```
-# TO install CEPH mimic 13.2.2 on coreos
-
+# TO install CEPH mimic 13.2.2 on CoreOS
+-----
 * [step 1:]
     download related files:
 
 
 * [step 2:]
     vim CONFIG
+<img src="https://github.com/kubernetes/kubernetes/raw/master/logo/logo.png" width="100">
 
 
 * [step 3:]
