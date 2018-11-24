@@ -13,7 +13,7 @@
 
 * [step 2:]
     vim CONFIG
-<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c1.png" width="500">
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c1.jpg" width="500">
 
 
 * [step 3:]
