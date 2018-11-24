@@ -13,7 +13,7 @@
 
 * [step 2:]
     vim CONFIG
-<img src="https://github.com/kubernetes/kubernetes/raw/master/logo/logo.png" width="100">
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c1.png" width="500">
 
 
 * [step 3:]
