@@ -14,7 +14,7 @@ TO install CEPH mimic 13.2.2 on coreos
 
 * [step 2:]
     vim CONFIG
-
+mubu_clipboard:{"type":"image","data":{"id":"2c116731a3771013-132377","uri":"document_image/dda13fa9-4645-4e2a-8c38-99696710bf69-132377.jpg","ow":626,"oh":509}}
 
 * [step 3:]
     clone corebase2 kvm & config IP & add one virtual disk.
