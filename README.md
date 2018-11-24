@@ -1,4 +1,3 @@
-TO install CEPH mimic 13.2.2 on coreos
 ```
   _       _                          __  __                 
  | |     (_)  _ __    _   _  __  __ |  \/  |   __ _   _ __  
@@ -6,26 +5,28 @@ TO install CEPH mimic 13.2.2 on coreos
  | |___  | | | | | | | |_| |  >  <  | |  | | | (_| | | | | |
  |_____| |_| |_| |_|  \__,_| /_/\_\ |_|  |_|  \__,_| |_| |_|
 ```
-* step 1:
-#    download related files:
-#
-#
-* step 2:
-#    vim CONFIG
-#
-#
+TO install CEPH mimic 13.2.2 on coreos
+
+* [step 1:]
+    download related files:
+
+
+* [step 2:]
+    vim CONFIG
+
+
 * step 3:
-#    clone corebase2 kvm & config IP & add one virtual disk.
-#    (see clone_coreos/clone_machine.sh)
-#
+    clone corebase2 kvm & config IP & add one virtual disk.
+    (see clone_coreos/clone_machine.sh)
+
 * step 4:
-#    sh install.sh all
-#
-#
+    sh install.sh all
+
+
 * step 5:
-#    browse svc-index.html to enjoy CEPH
-#
-#
+    browse svc-index.html to enjoy CEPH
+
+
 * more usage:
 ```
 usage: install.sh [OPTION]
