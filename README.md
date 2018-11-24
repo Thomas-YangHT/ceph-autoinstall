@@ -12,7 +12,7 @@
   * ceph.tgz https://pan.baidu.com/s/191LYj4DL3wm2li5LabeDEw
   * monitor.tgz https://pan.baidu.com/s/1mooOZsEjsf4q_O4Zn5s5jA
   * ha.tgz https://pan.baidu.com/s/1Cj_BAiohKnZOi2MKCEX10g
-  * 安装脚本：git clone https://github.com/Thomas-YangHT/ceph-autoinstall.git
+  * install SHELL：git clone https://github.com/Thomas-YangHT/ceph-autoinstall.git
 
 * [step 2:]
     vim CONFIG
@@ -64,4 +64,4 @@ OPTIONS:
 ```
 -----
 <img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/linuxman.png" width="500">
-linux command HELP,try input some cmd, such as lsof.
+### linux command HELP,try input some cmd, such as lsof.
