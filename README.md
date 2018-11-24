@@ -7,9 +7,12 @@
 ```
 # TO install CEPH mimic 13.2.2 on CoreOS
 -----
-* [step 1:]
-    download related files:
-
+* [step 1:] download related files:
+  * coreosbase2.tgz https://pan.baidu.com/s/141I6ctxuGtFfiD8tRHfz_g
+  * ceph.tgz https://pan.baidu.com/s/191LYj4DL3wm2li5LabeDEw
+  * monitor.tgz https://pan.baidu.com/s/1mooOZsEjsf4q_O4Zn5s5jA
+  * ha.tgz https://pan.baidu.com/s/1Cj_BAiohKnZOi2MKCEX10g
+  * 安装脚本：git clone https://github.com/Thomas-YangHT/ceph-autoinstall.git
 
 * [step 2:]
     vim CONFIG
