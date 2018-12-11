@@ -27,18 +27,18 @@
 * [step 4:]
     sh install.sh all
     [![asciicast](https://asciinema.org/a/LYqagdkbT3ti79QuQttX5nXr6.svg)](https://asciinema.org/a/LYqagdkbT3ti79QuQttX5nXr6)
-<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c2.png" width="500">
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c2.png" width="800">
 
 * [step 5:]
     browse svc-index.html to enjoy CEPH
     * sh install.sh status
     * modify grafana's datasource prometheus IP as node1's IP
-<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c3.png" width="500">
-<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c4.png" width="500">
-<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c5.png" width="500">
-<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c6.png" width="500">
-<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c7.png" width="500">
-<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c8.png" width="500">
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c3.png" width="800">
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c4.png" width="800">
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c5.png" width="800">
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c6.png" width="800">
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c7.png" width="800">
+<img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c8.png" width="800">
 
 # more usage:
 ```
