@@ -8,11 +8,11 @@
 # TO install CEPH mimic 13.2.2 on CoreOS
 -----
 * [step 1:] download related files:
-  * coreosbase2.tgz https://pan.baidu.com/s/141I6ctxuGtFfiD8tRHfz_g
-  * ceph.tgz https://pan.baidu.com/s/191LYj4DL3wm2li5LabeDEw
-  * monitor.tgz https://pan.baidu.com/s/1mooOZsEjsf4q_O4Zn5s5jA
-  * ha.tgz https://pan.baidu.com/s/1Cj_BAiohKnZOi2MKCEX10g
-  * install SHELL：git clone https://github.com/Thomas-YangHT/ceph-autoinstall.git
+  * [coreosbase2.tgz](https://pan.baidu.com/s/141I6ctxuGtFfiD8tRHfz_g)
+  * [ceph.tgz](https://pan.baidu.com/s/191LYj4DL3wm2li5LabeDEw)
+  * [monitor.tgz](https://pan.baidu.com/s/1mooOZsEjsf4q_O4Zn5s5jA)
+  * [ha.tgz](https://pan.baidu.com/s/1Cj_BAiohKnZOi2MKCEX10g)
+  * [install SHELL]：git clone https://github.com/Thomas-YangHT/ceph-autoinstall.git
 
 * [step 2:]
     vim CONFIG
@@ -26,6 +26,7 @@
   * cd clone_coreos; sh -x clone_machine.sh
 * [step 4:]
     sh install.sh all
+    [![asciicast](https://asciinema.org/a/LYqagdkbT3ti79QuQttX5nXr6.svg)](https://asciinema.org/a/LYqagdkbT3ti79QuQttX5nXr6)
 <img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c2.png" width="500">
 
 * [step 5:]
