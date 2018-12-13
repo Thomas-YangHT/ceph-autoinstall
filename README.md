@@ -1,3 +1,4 @@
+![](https://img.shields.io/badge/Dist-CoreOS-blue.svg)  ![](https://img.shields.io/badge/Storage-CEPH-brightgreen.svg)  ![](https://img.shields.io/badge/Proxy-IPVS-orange.svg)  ![](https://img.shields.io/badge/Haproxy-LB-yellow.svg) ![](https://img.shields.io/badge/Keepalived-HA-yellow.svg) 
 ```
   _       _                          __  __                 
  | |     (_)  _ __    _   _  __  __ |  \/  |   __ _   _ __  
