@@ -42,7 +42,7 @@
 <img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c7.png" width="800">
 <img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c8.png" width="800">
 
-# more usage:
+# More Usage:
 ```
 usage: install.sh [OPTION]
 OPTIONS:
