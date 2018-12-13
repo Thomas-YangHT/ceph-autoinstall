@@ -14,25 +14,24 @@
   * [ha.tgz](https://pan.baidu.com/s/1Cj_BAiohKnZOi2MKCEX10g)
   * [install SHELL]：git clone https://github.com/Thomas-YangHT/ceph-autoinstall.git
 
-## [step 2:]
-  * vim CONFIG
+## [step 2:]  vim CONFIG
 
 <img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c1.png" width="500">
 
 
-## [step 3:]
+## [step 3:] clone KVM
   *  clone corebase2 kvm & config IP & add one virtual disk.
 ```
    kvm define coreosbase2.xml
    cd clone_coreos; sh -x clone_machine.sh
 ```
-## [step 4:]
+## [step 4:] INSTALL
     `sh install.sh all`
     
     [![asciicast](https://asciinema.org/a/LYqagdkbT3ti79QuQttX5nXr6.svg)](https://asciinema.org/a/LYqagdkbT3ti79QuQttX5nXr6)
 <img src="https://github.com/Thomas-YangHT/ceph-autoinstall/raw/master/pics/c2.png" width="800">
 
-## [step 5:]
+## [step 5:] Check & Use
     * browse svc-index.html to enjoy CEPH
     ` sh install.sh status `
     * modify grafana's datasource prometheus IP as node1's IP
